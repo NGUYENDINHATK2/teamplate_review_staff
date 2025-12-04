@@ -2,200 +2,388 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-    <title>Đánh giá Nhân viên</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đánh giá Nhân viên - 6 tháng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
+      :root{
+        --bg: #f6f8fb;
+        --card: #ffffff;
+        --muted: #6b7280;
+        --accent: #0ea5a0; /* teal */
+        --accent-2: #06b6d4; /* cyan */
+        --border: #e6e9ee;
+        --danger: #ef4444;
+        --radius: 12px;
+        --gap: 20px;
+      }
+
+      *{box-sizing: border-box}
+      html,body{height:100%}
       body {
-        font-family: Arial;
-        padding: 20px;
-        max-width: 800px;
-        margin: auto;
+        font-family: 'Inter', Arial, sans-serif;
+        background: linear-gradient(180deg, #f8fafc 0%, #f4f7fb 100%);
+        color: #0f172a;
+        margin: 0;
+        padding: 32px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 24px;
       }
-      h2 {
-        margin-top: 40px;
-      }
-      .question {
-        margin-bottom: 20px;
-      }
-      label {
-        margin-right: 15px;
-      }
-      textarea {
+
+      .wrap{
         width: 100%;
-        height: 80px;
-        margin-top: 5px;
+        max-width: 960px;
       }
-      .rating-group {
-        margin-top: 5px;
+
+      header{
+        background: linear-gradient(90deg,var(--accent),var(--accent-2));
+        color: white;
+        padding: 18px 22px;
+        border-radius: 14px;
+        box-shadow: 0 6px 20px rgba(6,30,47,0.12);
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        gap:12px;
       }
+
+      header h1{
+        margin:0;font-size:20px;font-weight:700;letter-spacing:0.2px;
+      }
+      header p{margin:0;opacity:0.95;font-size:13px}
+
+      .card{
+        background:var(--card);
+        border-radius: var(--radius);
+        margin-top: var(--gap);
+        padding: 20px;
+        box-shadow: 0 6px 18px rgba(15,23,42,0.06);
+        border: 1px solid var(--border);
+      }
+
+      .meta-row{
+        display:flex;gap:12px;align-items:center;margin-bottom:12px;
+      }
+      .meta-row .tag{background:#eef9f9;color:#035d59;padding:6px 10px;border-radius:999px;font-weight:600;font-size:13px}
+
+      .section-title{font-size:15px;font-weight:700;margin:0 0 8px 0}
+      .section-sub{font-size:13px;color:var(--muted);margin:0 0 16px 0}
+
+      .questions{
+        display:grid;
+        grid-template-columns:1fr;
+        gap:14px;
+      }
+
+      .q{
+        padding:14px;border-radius:10px;border:1px solid var(--border);
+        display:flex;flex-direction:column;gap:10px;background:linear-gradient(180deg, rgba(250,252,253,0.6), rgba(255,255,255,0.4));
+      }
+
+      .q strong{font-weight:700}
+      .rating-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+
+      /* custom radio group as pills */
+      .rating {
+        display:flex;gap:8px;align-items:center;
+      }
+      .rating input{display:none}
+      .rating label{
+        padding:8px 12px;border-radius:999px;border:1px solid var(--border);background:transparent;font-size:13px;cursor:pointer;user-select:none;
+        transition: all .18s ease;
+      }
+      .rating input:checked + label{
+        background:linear-gradient(90deg,var(--accent),var(--accent-2));
+        color:white;border-color:transparent;box-shadow:0 6px 16px rgba(11,128,122,0.14);
+      }
+
+      textarea{
+        width:100%;min-height:84px;padding:12px;border-radius:10px;border:1px solid var(--border);resize:vertical;font-size:14px;font-family:inherit;color:#0f172a;
+        box-shadow: inset 0 1px 0 rgba(15,23,42,0.02);
+      }
+      textarea::placeholder{color:var(--muted)}
+
+      /* summary section - 2 columns on wide screens */
+      .two-col{
+        display:grid;grid-template-columns:1fr;gap:12px;
+      }
+      @media(min-width:880px){
+        .questions{grid-template-columns:1fr}
+        .two-col{grid-template-columns:1fr 1fr}
+      }
+
+      .form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px}
+      .btn{
+        padding:10px 14px;border-radius:10px;border:1px solid transparent;font-weight:700;cursor:pointer;font-size:14px
+      }
+      .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:white;box-shadow:0 8px 26px rgba(6,181,196,0.14)}
+      .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}
+
+      /* small helper text */
+      .muted{color:var(--muted);font-size:13px}
+
+      /* small layout for header details */
+      .header-right{display:flex;gap:14px;align-items:center}
+
+      /* nicer labels for fields */
+      label.field-label{display:block;font-size:13px;color:#0f172a;font-weight:600;margin-bottom:6px}
+
+      /* preferred coworkers textarea smaller */
+      textarea.small{min-height:62px}
     </style>
   </head>
   <body>
-    <h1>Đánh giá 6 tháng Nhân viên</h1>
+    <div class="wrap">
+      <header>
+        <div>
+          <h1>Đánh giá 6 tháng — Nhân viên</h1>
+          <p class="muted">Mẫu đánh giá chuyên nghiệp, rõ ràng và thân thiện.</p>
+        </div>
+        <div class="header-right">
+          <div class="tag">Báo cáo nội bộ</div>
+          <div class="muted">Ngày: <strong>04/12/2025</strong></div>
+        </div>
+      </header>
 
-    <!-- Các tiêu chí đánh giá bằng radio -->
-    <div class="question">
-      <strong>KHẢ NĂNG THÍCH NGHI và LINH HOẠT - Kỹ năng mềm</strong><br />
-      <div class="rating-group">
-        <label
-          ><input type="radio" name="adaptability" value="Yếu" /> Yếu</label
-        >
-        <label
-          ><input type="radio" name="adaptability" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label
-          ><input type="radio" name="adaptability" value="Khá" /> Khá</label
-        >
-        <label
-          ><input type="radio" name="adaptability" value="Giỏi" /> Giỏi</label
-        >
+      <div class="card">
+        <div class="meta-row">
+          <div>
+            <div class="section-title">Thông tin căn bản</div>
+            <div class="section-sub">Điền thông tin nhân viên và người đánh giá ở phần trên nếu cần.</div>
+          </div>
+        </div>
+
+        <form id="reviewForm" autocomplete="off">
+          <div class="questions">
+
+            <!-- adaptability -->
+            <div class="q">
+              <div>
+                <div class="section-title">KHẢ NĂNG THÍCH NGHI &amp; LINH HOẠT — Kỹ năng mềm</div>
+                <div class="section-sub">Đánh giá mức độ thích nghi, xử lý thay đổi và linh hoạt trong công việc.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating" role="radiogroup" aria-label="adaptability">
+                  <input type="radio" id="adapt-1" name="adaptability" value="Yếu"><label for="adapt-1">Yếu</label>
+                  <input type="radio" id="adapt-2" name="adaptability" value="Trung bình"><label for="adapt-2">Trung bình</label>
+                  <input type="radio" id="adapt-3" name="adaptability" value="Khá"><label for="adapt-3">Khá</label>
+                  <input type="radio" id="adapt-4" name="adaptability" value="Giỏi"><label for="adapt-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú / Ví dụ cụ thể</label>
+                <textarea name="adaptability_note" placeholder="Nhập nhận xét, ví dụ tình huống..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- quality -->
+            <div class="q">
+              <div>
+                <div class="section-title">CHẤT LƯỢNG CÔNG VIỆC — Kiến thức &amp; năng lực</div>
+                <div class="section-sub">Đánh giá độ chính xác, chất lượng đầu ra và tuân thủ tiêu chuẩn.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="quality-1" name="quality" value="Yếu"><label for="quality-1">Yếu</label>
+                  <input type="radio" id="quality-2" name="quality" value="Trung bình"><label for="quality-2">Trung bình</label>
+                  <input type="radio" id="quality-3" name="quality" value="Khá"><label for="quality-3">Khá</label>
+                  <input type="radio" id="quality-4" name="quality" value="Giỏi"><label for="quality-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="quality_note" placeholder="Ví dụ: lỗi, cải tiến, phạm vi cần nâng cao..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- responsibility -->
+            <div class="q">
+              <div>
+                <div class="section-title">TRÁCH NHIỆM</div>
+                <div class="section-sub">Độ chủ động, nhận biết rủi ro và hoàn thành nhiệm vụ.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="resp-1" name="responsibility" value="Yếu"><label for="resp-1">Yếu</label>
+                  <input type="radio" id="resp-2" name="responsibility" value="Trung bình"><label for="resp-2">Trung bình</label>
+                  <input type="radio" id="resp-3" name="responsibility" value="Khá"><label for="resp-3">Khá</label>
+                  <input type="radio" id="resp-4" name="responsibility" value="Giỏi"><label for="resp-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="responsibility_note" placeholder="Ghi rõ các ví dụ khi có..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- communication -->
+            <div class="q">
+              <div>
+                <div class="section-title">GIAO TIẾP — Kỹ năng nói &amp; viết</div>
+                <div class="section-sub">Đánh giá khả năng truyền đạt, trình bày và trao đổi thông tin.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="comm-1" name="communication" value="Yếu"><label for="comm-1">Yếu</label>
+                  <input type="radio" id="comm-2" name="communication" value="Trung bình"><label for="comm-2">Trung bình</label>
+                  <input type="radio" id="comm-3" name="communication" value="Khá"><label for="comm-3">Khá</label>
+                  <input type="radio" id="comm-4" name="communication" value="Giỏi"><label for="comm-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="communication_note" placeholder="Ví dụ: báo cáo, mail, thuyết trình..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- leadership -->
+            <div class="q">
+              <div>
+                <div class="section-title">LÃNH ĐẠO</div>
+                <div class="section-sub">Khả năng dẫn dắt, phân công và tạo ảnh hưởng tích cực.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="lead-1" name="leadership" value="Yếu"><label for="lead-1">Yếu</label>
+                  <input type="radio" id="lead-2" name="leadership" value="Trung bình"><label for="lead-2">Trung bình</label>
+                  <input type="radio" id="lead-3" name="leadership" value="Khá"><label for="lead-3">Khá</label>
+                  <input type="radio" id="lead-4" name="leadership" value="Giỏi"><label for="lead-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="leadership_note" placeholder="Ví dụ: dự án, mentoring, conflict resolution..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- documentation -->
+            <div class="q">
+              <div>
+                <div class="section-title">KỸ NĂNG TÀI LIỆU</div>
+                <div class="section-sub">Độ tổ chức, chuẩn hoá tài liệu, comment, README.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="doc-1" name="documentation" value="Yếu"><label for="doc-1">Yếu</label>
+                  <input type="radio" id="doc-2" name="documentation" value="Trung bình"><label for="doc-2">Trung bình</label>
+                  <input type="radio" id="doc-3" name="documentation" value="Khá"><label for="doc-3">Khá</label>
+                  <input type="radio" id="doc-4" name="documentation" value="Giỏi"><label for="doc-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="documentation_note" placeholder="Ví dụ: nội dung, template, structure..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- negotiation -->
+            <div class="q">
+              <div>
+                <div class="section-title">ĐÀM PHÁN</div>
+                <div class="section-sub">Kỹ năng thương lượng, thuyết phục và đạt được thỏa thuận.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="nego-1" name="negotiation" value="Yếu"><label for="nego-1">Yếu</label>
+                  <input type="radio" id="nego-2" name="negotiation" value="Trung bình"><label for="nego-2">Trung bình</label>
+                  <input type="radio" id="nego-3" name="negotiation" value="Khá"><label for="nego-3">Khá</label>
+                  <input type="radio" id="nego-4" name="negotiation" value="Giỏi"><label for="nego-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="negotiation_note" placeholder="Kết quả thương lượng, ví dụ..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- english -->
+            <div class="q">
+              <div>
+                <div class="section-title">NGOẠI NGỮ — TIẾNG ANH</div>
+                <div class="section-sub">Khả năng đọc hiểu, giao tiếp và soạn thảo bằng tiếng Anh.</div>
+              </div>
+
+              <div class="rating-row">
+                <div class="rating">
+                  <input type="radio" id="eng-1" name="english" value="Yếu"><label for="eng-1">Yếu</label>
+                  <input type="radio" id="eng-2" name="english" value="Trung bình"><label for="eng-2">Trung bình</label>
+                  <input type="radio" id="eng-3" name="english" value="Khá"><label for="eng-3">Khá</label>
+                  <input type="radio" id="eng-4" name="english" value="Giỏi"><label for="eng-4">Giỏi</label>
+                </div>
+              </div>
+
+              <div>
+                <label class="field-label">Ghi chú</label>
+                <textarea name="english_note" placeholder="Ví dụ: giao tiếp, dịch, đọc tài liệu kỹ thuật..." class="small"></textarea>
+              </div>
+            </div>
+
+            <!-- summary & plan grid -->
+            <div class="q two-col" style="grid-column: 1 / -1">
+              <div>
+                <label class="field-label">Tổng kết quá trình làm việc 6 tháng</label>
+                <textarea name="summary" placeholder="Ghi ngắn gọn các điểm mạnh, điểm cần cải thiện"></textarea>
+              </div>
+              <div>
+                <label class="field-label">Kế hoạch trong 6 tháng tới</label>
+                <textarea name="plan" placeholder="Mục tiêu, KPI, hành động cụ thể"></textarea>
+              </div>
+            </div>
+
+            <div class="q" style="grid-column: 1 / -1">
+              <label class="field-label">Kết quả đạt được trong 6 tháng trước</label>
+              <textarea name="result" placeholder="Số liệu, kết quả, milestone đã hoàn thành"></textarea>
+            </div>
+
+            <div class="q" style="grid-column: 1 / -1">
+              <label class="field-label">Nguyện vọng của nhân viên</label>
+              <textarea name="desire" placeholder="Nhu cầu phát triển, lương, vị trí, học tập..."></textarea>
+            </div>
+
+            <div class="q" style="grid-column: 1 / -1">
+              <label class="field-label">3 người nhân viên muốn làm việc cùng nhất</label>
+              <textarea name="preferredCoworkers" placeholder="Tên 1, Tên 2, Tên 3"></textarea>
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-ghost" onclick="document.getElementById('reviewForm').reset()">Reset</button>
+            <button type="submit" class="btn btn-primary">Lưu &amp; Xuất</button>
+          </div>
+        </form>
+
       </div>
-      <textarea name="preferredCoworkers"></textarea>
     </div>
 
-    <div class="question">
-      <strong>CHẤT LƯỢNG CÔNG VIỆC - Kiến thức & Năng lực Kỹ năng</strong><br />
-      <div class="rating-group">
-        <label><input type="radio" name="quality" value="Yếu" /> Yếu</label>
-        <label
-          ><input type="radio" name="quality" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label><input type="radio" name="quality" value="Khá" /> Khá</label>
-        <label><input type="radio" name="quality" value="Giỏi" /> Giỏi</label>
-      </div>
-    </div>
-
-    <div class="question">
-      <strong>TRÁCH NHIỆM - Kiến thức & Kỹ năng Năng lực</strong><br />
-      <div class="rating-group">
-        <label
-          ><input type="radio" name="responsibility" value="Yếu" /> Yếu</label
-        >
-        <label
-          ><input type="radio" name="responsibility" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label
-          ><input type="radio" name="responsibility" value="Khá" /> Khá</label
-        >
-        <label
-          ><input type="radio" name="responsibility" value="Giỏi" /> Giỏi</label
-        >
-      </div>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
-
-    <div class="question">
-      <strong>GIAO TIẾP: KỸ NĂNG NÓI, VIẾT - Kỹ năng mềm</strong><br />
-      <div class="rating-group">
-        <label
-          ><input type="radio" name="communication" value="Yếu" /> Yếu</label
-        >
-        <label
-          ><input type="radio" name="communication" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label
-          ><input type="radio" name="communication" value="Khá" /> Khá</label
-        >
-        <label
-          ><input type="radio" name="communication" value="Giỏi" /> Giỏi</label
-        >
-      </div>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
-
-    <div class="question">
-      <strong>Lãnh đạo - Kỹ năng mềm</strong><br />
-      <div class="rating-group">
-        <label><input type="radio" name="leadership" value="Yếu" /> Yếu</label>
-        <label
-          ><input type="radio" name="leadership" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label><input type="radio" name="leadership" value="Khá" /> Khá</label>
-        <label
-          ><input type="radio" name="leadership" value="Giỏi" /> Giỏi</label
-        >
-      </div>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
-
-    <div class="question">
-      <strong>Kỹ năng tài liệu</strong><br />
-      <div class="rating-group">
-        <label
-          ><input type="radio" name="documentation" value="Yếu" /> Yếu</label
-        >
-        <label
-          ><input type="radio" name="documentation" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label
-          ><input type="radio" name="documentation" value="Khá" /> Khá</label
-        >
-        <label
-          ><input type="radio" name="documentation" value="Giỏi" /> Giỏi</label
-        >
-      </div>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
-
-    <div class="question">
-      <strong>ĐÀM PHÁN - Kỹ năng mềm</strong><br />
-      <div class="rating-group">
-        <label><input type="radio" name="negotiation" value="Yếu" /> Yếu</label>
-        <label
-          ><input type="radio" name="negotiation" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label><input type="radio" name="negotiation" value="Khá" /> Khá</label>
-        <label
-          ><input type="radio" name="negotiation" value="Giỏi" /> Giỏi</label
-        >
-      </div>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
-
-    <div class="question">
-      <strong>NGOẠI NGỮ - Tiếng Anh</strong><br />
-      <div class="rating-group">
-        <label><input type="radio" name="english" value="Yếu" /> Yếu</label>
-        <label
-          ><input type="radio" name="english" value="Trung bình" /> Trung
-          bình</label
-        >
-        <label><input type="radio" name="english" value="Khá" /> Khá</label>
-        <label><input type="radio" name="english" value="Giỏi" /> Giỏi</label>
-      </div>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
-
-
-    <div class="question">
-      <label><strong>Tổng kết quá trình làm việc 6 tháng:</strong></label>
-      <textarea name="summary"></textarea>
-    </div>
-
-    <div class="question">
-      <label><strong>Kế hoạch trong 6 tháng tới:</strong></label>
-      <textarea name="plan"></textarea>
-    </div>
-
-    <div class="question">
-      <label><strong>Kết quả đạt được trong 6 tháng trước:</strong></label>
-      <textarea name="result"></textarea>
-    </div>
-
-    <div class="question">
-      <label><strong>Nguyện vọng của nhân viên:</strong></label>
-      <textarea name="desire"></textarea>
-    </div>
-
-    <div class="question">
-      <label><strong>3 người nhân viên muốn làm việc cùng nhất:</strong></label>
-      <textarea name="preferredCoworkers"></textarea>
-    </div>
+    <script>
+      // Minimal JS to show form data in console (you can replace with save/export logic)
+      document.getElementById('reviewForm').addEventListener('submit', function(e){
+        e.preventDefault();
+        const data = new FormData(e.target);
+        const obj = {};
+        for(const [k,v] of data.entries()){
+          if(!obj[k]) obj[k]=v; else obj[k]+= ', ' + v;
+        }
+        console.log('Form data:', obj);
+        alert('Dữ liệu đã được ghi (tạm). Mở console để xem object JSON.');
+      });
+    </script>
   </body>
 </html>
