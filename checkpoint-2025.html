@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>COPRODUCTION – Checkpoint Cuối Năm 2025</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg-0: #020617;
+        --bg-1: #020617;
+        --card: #020617;
+        --border: rgba(148, 163, 184, 0.4);
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.12);
+        --accent-2: #a855f7;
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        background: radial-gradient(
+          circle at top,
+          #111827 0,
+          #020617 55%,
+          #000 100%
+        );
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
+        color: var(--text);
+        padding: 24px 12px;
+      }
+
+      .page {
+        width: 100%;
+        max-width: 980px;
+        padding: 26px 26px 32px;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: radial-gradient(
+          circle at top left,
+          #020617 0,
+          #020617 45%,
+          #030712 100%
+        );
+        box-shadow: 0 22px 70px rgba(15, 23, 42, 0.9);
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 14px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .logo-circle {
+        width: 42px;
+        height: 42px;
+        border-radius: 999px;
+        border: 2px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle, #1f2937 0, #020617 55%);
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 20px;
+        box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+      }
+
+      .brand-title {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .brand-sub {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .meta {
+        font-size: 11px;
+        color: var(--muted);
+        text-align: right;
+      }
+
+      .meta strong {
+        color: var(--text);
+      }
+
+      .hero {
+        margin-bottom: 18px;
+      }
+
+      .hero-year {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .hero-title {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        margin-bottom: 6px;
+      }
+
+      .hero-desc {
+        font-size: 14px;
+        color: var(--muted);
+        max-width: 640px;
+        line-height: 1.6;
+      }
+
+      .badge-row {
+        margin-top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .badge {
+        font-size: 11px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: #e0f2fe;
+      }
+
+      .section-title {
+        margin-top: 20px;
+        margin-bottom: 8px;
+        font-size: 15px;
+        font-weight: 600;
+      }
+
+      .menu-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+        gap: 14px;
+        margin-top: 4px;
+      }
+
+      .menu-item {
+        position: relative;
+        padding: 12px 12px 14px;
+        border-radius: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        background: radial-gradient(
+          circle at top,
+          #020617 0,
+          #020617 55%,
+          #020617 100%
+        );
+        text-decoration: none;
+        color: var(--text);
+        overflow: hidden;
+        transition: transform 0.16s ease-out, box-shadow 0.16s ease-out,
+          border-color 0.16s ease-out, background 0.18s ease-out;
+        animation: cardFloat 6s ease-in-out infinite;
+        animation-play-state: paused;
+      }
+
+      .menu-item::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: radial-gradient(
+          circle at top left,
+          rgba(56, 189, 248, 0.16),
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.18s ease-out;
+      }
+
+      .menu-code {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 4px;
+      }
+
+      .menu-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .menu-desc {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .menu-meta {
+        font-size: 11px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--muted);
+      }
+
+      .menu-pill {
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .menu-arrow {
+        font-size: 13px;
+        color: var(--accent);
+      }
+
+      .menu-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.95);
+        border-color: rgba(56, 189, 248, 0.6);
+        background: radial-gradient(
+          circle at top,
+          #020617 0,
+          #020617 45%,
+          #020617 100%
+        );
+        animation-play-state: running;
+      }
+
+      .menu-item:hover::before {
+        opacity: 1;
+      }
+
+      .footer-note {
+        margin-top: 16px;
+        font-size: 11px;
+        color: var(--muted);
+        text-align: right;
+      }
+
+      @keyframes cardFloat {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-3px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      .menu-grid .menu-item:nth-child(1) {
+        animation-delay: -0.5s;
+      }
+      .menu-grid .menu-item:nth-child(2) {
+        animation-delay: -1.8s;
+      }
+      .menu-grid .menu-item:nth-child(3) {
+        animation-delay: -3.1s;
+      }
+      .menu-grid .menu-item:nth-child(4) {
+        animation-delay: -4.4s;
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding: 20px 16px 26px;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .meta {
+          text-align: left;
+        }
+        .hero-title {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <div class="brand">
+          <div class="logo-circle">C</div>
+          <div>
+            <div class="brand-title">COPRODUCTION</div>
+            <div class="brand-sub">Year-End Checkpoint 2025</div>
+          </div>
+        </div>
+        <div class="meta">
+          <div><strong>Năm:</strong> 2025</div>
+          <div><strong>Đối tượng:</strong> Dev · Intern · Fresher</div>
+          <div><strong>Thời lượng gợi ý:</strong> 90–120 phút</div>
+        </div>
+      </header>
+
+      <section class="hero">
+        <div class="hero-year">Checkpoint cuối năm · COPRODUCTION 2025</div>
+        <div class="hero-title">
+          Welcome to COPRODUCTION Year-End Checkpoint
+        </div>
+        <p class="hero-desc">
+          Chào mừng bạn đến với bài checkpoint cuối năm của COPRODUCTION. Đây là
+          dịp để hệ thống lại kiến thức thuật toán, tư duy hệ thống và kỹ năng
+          code thực chiến. Hãy chọn bài phù hợp bên dưới để bắt đầu làm bài.
+        </p>
+        <div class="badge-row">
+          <span class="badge">Algorithm &amp; Data Structure</span>
+          <span class="badge">Problem Solving</span>
+          <span class="badge">System Thinking</span>
+        </div>
+      </section>
+      <section>
+        <div class="section-title">Danh sách câu hỏi / bài thi</div>
+        <div class="menu-grid">
+          <a href="hq01_headquarters_2025.html" class="menu-item">
+            <div class="menu-code">HQ01</div>
+            <div class="menu-title">Headquarters – Trung tâm điều phối</div>
+            <div class="menu-desc">
+              Cho một cây N node, hãy tìm tất cả node có thể chọn làm “trung
+              tâm” sao cho khoảng cách xa nhất tới các node khác là nhỏ nhất.
+            </div>
+            <div class="menu-meta">
+              <span class="menu-pill">Graph · Tree center</span>
+              <span class="menu-arrow">Làm bài &rarr;</span>
+            </div>
+          </a>
+          <a href="hq02_pass_server_2025.html" class="menu-item">
+            <div class="menu-code">Q02</div>
+            <div class="menu-title">PASS_SERVER – Access Code</div>
+            <div class="menu-desc">
+              Tính số lượng mật khẩu có độ dài N, với vị trí lẻ là nguyên âm (U,
+              E, O, A, I) và vị trí chẵn là một trong 4 phụ âm đặc biệt (H, N,
+              M, G). Kết quả modulo 10^9 + 7.
+            </div>
+            <div class="menu-meta">
+              <span class="menu-pill">Math / Combinatorics</span>
+              <span class="menu-arrow">Làm bài &rarr;</span>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Đề thi – Headquarters – COPRODUCTION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #0b1120;
+        --border: rgba(148, 163, 184, 0.4);
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.08);
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --code-bg: #020617;
+
+        /* màu cho diagram */
+        --node-root: #bfdbfe;
+        --node-mid: #f9fafb;
+        --node-leaf: #e9d5ff;
+        --stroke: #475569;
+        --edge: #94a3b8;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+        color: var(--text);
+        padding: 24px 12px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .page {
+        width: 100%;
+        max-width: 920px;
+        background: linear-gradient(135deg, #020617 0, #020617 40%, #030712 100%);
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.9);
+        padding: 28px 28px 32px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-circle {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle, #1e293b 0, #020617 55%);
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--accent);
+      }
+
+      .brand-text-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .brand-text-sub {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+      }
+
+      .meta {
+        text-align: right;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .meta strong {
+        color: var(--text);
+      }
+
+      h1 {
+        font-size: 22px;
+        margin-bottom: 6px;
+        margin-top: 2px;
+      }
+
+      .problem-code {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: #e0f2fe;
+        margin-bottom: 14px;
+      }
+
+      .problem-code span:first-child {
+        font-weight: 600;
+        opacity: 0.85;
+      }
+
+      h2 {
+        font-size: 16px;
+        margin: 18px 0 8px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 6px;
+        color: var(--text);
+      }
+
+      ul {
+        margin: 4px 0 10px 22px;
+        font-size: 14px;
+      }
+
+      ul li {
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+
+      .section {
+        padding: 10px 0 2px;
+        border-top: 1px dashed rgba(148, 163, 184, 0.4);
+        margin-top: 8px;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .tag {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: var(--muted);
+      }
+
+      code {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 13px;
+      }
+
+      pre {
+        background: var(--code-bg);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        border: 1px solid rgba(15, 23, 42, 0.85);
+        margin: 6px 0 10px;
+      }
+
+      .example-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 6px;
+      }
+
+      .example-box-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: var(--muted);
+      }
+
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      /* ===== Diagram + animation ===== */
+
+      .diagram-wrapper {
+        margin-top: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        background: radial-gradient(circle at top, #020617 0, #020617 55%);
+      }
+
+      .diagram {
+        width: 100%;
+        display: block;
+      }
+
+      .figure-caption {
+        margin-top: 6px;
+        font-size: 11px;
+        color: var(--muted);
+        font-style: italic;
+        text-align: center;
+      }
+
+      @keyframes floatY {
+        0% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+        100% {
+          transform: translateY(0px);
+        }
+      }
+
+      @keyframes pulseRoot {
+        0% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 0 rgba(56, 189, 248, 0));
+        }
+        50% {
+          transform: scale(1.12);
+          filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.8));
+        }
+        100% {
+          transform: scale(1);
+          filter: drop-shadow(0 0 0 rgba(56, 189, 248, 0));
+        }
+      }
+
+      @keyframes glowBest {
+        0% {
+          stroke-width: 0;
+          stroke-opacity: 0;
+        }
+        50% {
+          stroke-width: 4;
+          stroke-opacity: 0.9;
+        }
+        100% {
+          stroke-width: 0;
+          stroke-opacity: 0;
+        }
+      }
+
+      .tree {
+        animation: floatY 4.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      .tree-0 {
+        animation-delay: -0.4s;
+      }
+
+      .tree-1 {
+        animation-delay: -1.2s;
+      }
+
+      .tree-2 {
+        animation-delay: -2s;
+      }
+
+      .tree-3 {
+        animation-delay: -2.8s;
+      }
+
+      .node-root circle {
+        animation: pulseRoot 2.2s ease-in-out infinite;
+        transform-box: fill-box;
+        transform-origin: center;
+      }
+
+      .tree-best .halo {
+        animation: glowBest 2.2s ease-in-out infinite;
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding: 18px 16px 22px;
+        }
+        h1 {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <div class="brand">
+          <div class="logo-circle">C</div>
+          <div>
+            <div class="brand-text-title">COPRODUCTION</div>
+            <div class="brand-text-sub">Programming Contest</div>
+          </div>
+        </div>
+        <div class="meta">
+          <div><strong>Bài:</strong> Headquarters – Trung tâm điều phối</div>
+          <div><strong>Ngôn ngữ:</strong> C/C++/Java/Python/…</div>
+          <div><strong>Thời gian:</strong> 1s &nbsp;|&nbsp; Bộ nhớ: 256MB</div>
+        </div>
+      </header>
+
+      <section>
+        <div class="problem-code">
+          <span>HQ01</span>
+          <span>Headquarters – Trung tâm điều phối</span>
+        </div>
+
+        <div class="tag-row">
+          <span class="tag">Graph</span>
+          <span class="tag">Tree</span>
+          <span class="tag">Center of Tree</span>
+          <span class="tag">Algorithm</span>
+        </div>
+
+        <h2>Mô tả</h2>
+        <p>
+          Tập đoàn công nghệ <strong>COPRODUCTION</strong> có
+          <code>N</code> cụm server (hoặc trung tâm dữ liệu), được đánh số từ
+          <code>0</code> đến <code>N − 1</code>. Các cụm server này được nối với
+          nhau bằng <code>N − 1</code> đường truyền hai chiều, và hệ thống
+          đường truyền đảm bảo rằng giữa bất kỳ hai cụm server nào cũng luôn tồn
+          tại một đường đi (có thể đi qua nhiều cụm trung gian).
+        </p>
+        <p>
+          Ban kỹ thuật muốn chọn <strong>một</strong> cụm server làm
+          <strong>trung tâm điều phối chính</strong>, nhưng việc lựa chọn phải
+          thỏa mãn các yêu cầu sau:
+        </p>
+        <ul>
+          <li>
+            Khi giả sử chọn một cụm server làm trung tâm, ta tính khoảng cách
+            (số đường truyền ít nhất phải đi qua) từ cụm đó tới tất cả các cụm
+            server còn lại.
+          </li>
+          <li>
+            <strong>Chi phí</strong> của phương án này được định nghĩa là
+            <strong>khoảng cách lớn nhất</strong> trong những khoảng cách vừa
+            nêu.
+          </li>
+          <li>
+            Ban kỹ thuật muốn tìm ra <strong>mọi</strong> vị trí đặt trung tâm
+            sao cho chi phí là <strong>nhỏ nhất có thể</strong>.
+          </li>
+        </ul>
+        <p>
+          Nhiệm vụ của bạn là giúp ban kỹ thuật liệt kê tất cả các cụm server
+          phù hợp để làm trung tâm điều phối tối ưu và in ra theo
+          <strong>thứ tự tăng dần</strong> theo mã số server.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Đầu vào (Input)</h2>
+        <ul>
+          <li>
+            Dòng đầu tiên chứa một số nguyên <code>N</code> –
+            số lượng cụm server (<code>1 ≤ N ≤ 10<sup>6</sup></code>).
+          </li>
+          <li>
+            <code>N − 1</code> dòng tiếp theo, mỗi dòng thứ
+            <code>i</code> gồm hai số nguyên <code>a<sub>i</sub></code> và
+            <code>b<sub>i</sub></code> (<code>0 ≤ a<sub>i</sub>, b<sub>i</sub> ≤ N − 1</code>)
+            cho biết có một đường truyền trực tiếp giữa cụm server
+            <code>a<sub>i</sub></code> và <code>b<sub>i</sub></code>.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Subtask</h2>
+        <ul>
+          <li><strong>50%</strong> số test có <code>N ≤ 10<sup>4</sup></code>.</li>
+          <li>Các test còn lại có <code>N ≤ 10<sup>6</sup></code>.</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Đầu ra (Output)</h2>
+        <ul>
+          <li>
+            In ra các cụm server cho phương án đặt trung tâm điều phối tối ưu.
+          </li>
+          <li>Mỗi cụm server ghi trên <strong>một dòng</strong>.</li>
+          <li>
+            Các mã cụm server phải được in theo <strong>thứ tự tăng dần</strong>.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Ví dụ</h2>
+
+        <div class="example-grid">
+          <div>
+            <div class="example-box-title">Input 1</div>
+            <pre><code>4
+0 1
+2 1
+3 1</code></pre>
+          </div>
+          <div>
+            <div class="example-box-title">Output 1</div>
+            <pre><code>1</code></pre>
+          </div>
+        </div>
+
+        <p class="note">
+          Trong ví dụ trên, nếu chọn cụm server 1 làm trung tâm điều phối:
+          khoảng cách từ 1 tới các cụm 0, 2, 3 đều bằng 1; do đó khoảng cách
+          lớn nhất chỉ là 1. Không tồn tại lựa chọn nào khác có khoảng cách lớn
+          nhất nhỏ hơn 1, vì vậy server 1 là một vị trí tối ưu.
+        </p>
+
+        <!-- ======= Minh hoạ node + animation ======= -->
+        <div class="diagram-wrapper">
+          <svg
+            class="diagram"
+            viewBox="0 0 710 190"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <!-- Tree 0 -->
+            <g class="tree tree-0">
+              <line
+                x1="90"
+                y1="40"
+                x2="90"
+                y2="80"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="90"
+                y1="90"
+                x2="60"
+                y2="130"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="90"
+                y1="90"
+                x2="120"
+                y2="130"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <g class="node-root">
+                <circle
+                  cx="90"
+                  cy="30"
+                  r="16"
+                  fill="var(--node-root)"
+                  stroke="var(--stroke)"
+                  stroke-width="1.5"
+                />
+              </g>
+              <circle
+                cx="90"
+                cy="90"
+                r="16"
+                fill="var(--node-mid)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="60"
+                cy="130"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="120"
+                cy="130"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <text
+                x="90"
+                y="35"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                0
+              </text>
+              <text
+                x="90"
+                y="95"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                1
+              </text>
+              <text
+                x="60"
+                y="135"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                2
+              </text>
+              <text
+                x="120"
+                y="135"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                3
+              </text>
+              <text
+                x="90"
+                y="170"
+                text-anchor="middle"
+                font-size="11"
+                fill="var(--muted)"
+              >
+                root = 0
+              </text>
+            </g>
+
+            <!-- Tree 1 (best) -->
+            <g class="tree tree-1 tree-best">
+              <!-- halo -->
+              <circle
+                class="halo"
+                cx="260"
+                cy="30"
+                r="26"
+                fill="none"
+                stroke="var(--accent)"
+              />
+              <line
+                x1="260"
+                y1="40"
+                x2="230"
+                y2="80"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="260"
+                y1="40"
+                x2="260"
+                y2="80"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="260"
+                y1="40"
+                x2="290"
+                y2="80"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <g class="node-root">
+                <circle
+                  cx="260"
+                  cy="30"
+                  r="16"
+                  fill="var(--node-root)"
+                  stroke="var(--stroke)"
+                  stroke-width="1.5"
+                />
+              </g>
+              <circle
+                cx="230"
+                cy="90"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="260"
+                cy="90"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="290"
+                cy="90"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <text
+                x="260"
+                y="35"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                1
+              </text>
+              <text
+                x="230"
+                y="95"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                0
+              </text>
+              <text
+                x="260"
+                y="95"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                2
+              </text>
+              <text
+                x="290"
+                y="95"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                3
+              </text>
+              <text
+                x="260"
+                y="170"
+                text-anchor="middle"
+                font-size="11"
+                fill="var(--muted)"
+              >
+                root = 1 (tối ưu)
+              </text>
+            </g>
+
+            <!-- Tree 2 -->
+            <g class="tree tree-2">
+              <line
+                x1="430"
+                y1="40"
+                x2="430"
+                y2="80"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="430"
+                y1="90"
+                x2="400"
+                y2="130"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="430"
+                y1="90"
+                x2="460"
+                y2="130"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <g class="node-root">
+                <circle
+                  cx="430"
+                  cy="30"
+                  r="16"
+                  fill="var(--node-root)"
+                  stroke="var(--stroke)"
+                  stroke-width="1.5"
+                />
+              </g>
+              <circle
+                cx="430"
+                cy="90"
+                r="16"
+                fill="var(--node-mid)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="400"
+                cy="130"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="460"
+                cy="130"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <text
+                x="430"
+                y="35"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                2
+              </text>
+              <text
+                x="430"
+                y="95"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                1
+              </text>
+              <text
+                x="400"
+                y="135"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                0
+              </text>
+              <text
+                x="460"
+                y="135"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                3
+              </text>
+              <text
+                x="430"
+                y="170"
+                text-anchor="middle"
+                font-size="11"
+                fill="var(--muted)"
+              >
+                root = 2
+              </text>
+            </g>
+
+            <!-- Tree 3 -->
+            <g class="tree tree-3">
+              <line
+                x1="600"
+                y1="40"
+                x2="600"
+                y2="80"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="600"
+                y1="90"
+                x2="570"
+                y2="130"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <line
+                x1="600"
+                y1="90"
+                x2="630"
+                y2="130"
+                stroke="var(--edge)"
+                stroke-width="2"
+              />
+              <g class="node-root">
+                <circle
+                  cx="600"
+                  cy="30"
+                  r="16"
+                  fill="var(--node-root)"
+                  stroke="var(--stroke)"
+                  stroke-width="1.5"
+                />
+              </g>
+              <circle
+                cx="600"
+                cy="90"
+                r="16"
+                fill="var(--node-mid)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="570"
+                cy="130"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <circle
+                cx="630"
+                cy="130"
+                r="16"
+                fill="var(--node-leaf)"
+                stroke="var(--stroke)"
+                stroke-width="1.5"
+              />
+              <text
+                x="600"
+                y="35"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                3
+              </text>
+              <text
+                x="600"
+                y="95"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                1
+              </text>
+              <text
+                x="570"
+                y="135"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                0
+              </text>
+              <text
+                x="630"
+                y="135"
+                text-anchor="middle"
+                font-size="12"
+                fill="#0f172a"
+              >
+                2
+              </text>
+              <text
+                x="600"
+                y="170"
+                text-anchor="middle"
+                font-size="11"
+                fill="var(--muted)"
+              >
+                root = 3
+              </text>
+            </g>
+          </svg>
+
+          <div class="figure-caption">
+            Hình: Cấu trúc cây khi chọn lần lượt 0, 1, 2, 3 làm trung tâm điều
+            phối (root = 1 là phương án tối ưu).
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

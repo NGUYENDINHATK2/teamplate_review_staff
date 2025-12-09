@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <title>1 | PASS_SERVER – Access Code – COPRODUCTION</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #0b1120;
+        --border: rgba(148, 163, 184, 0.4);
+        --accent: #38bdf8;
+        --accent-soft: rgba(56, 189, 248, 0.08);
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --code-bg: #020617;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top, #111827 0, #020617 55%, #000 100%);
+        color: var(--text);
+        padding: 24px 12px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .page {
+        width: 100%;
+        max-width: 920px;
+        background: linear-gradient(135deg, #020617 0, #020617 40%, #030712 100%);
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        box-shadow: 0 18px 60px rgba(15, 23, 42, 0.9);
+        padding: 28px 28px 32px;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 16px;
+        margin-bottom: 18px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-circle {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle, #1e293b 0, #020617 55%);
+        font-weight: 700;
+        font-size: 18px;
+        color: var(--accent);
+        box-shadow: 0 0 14px rgba(56, 189, 248, 0.5);
+      }
+
+      .brand-text-title {
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+      }
+
+      .brand-text-sub {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+      }
+
+      .meta {
+        text-align: right;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .meta strong {
+        color: var(--text);
+      }
+
+      .problem-code {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--accent-soft);
+        color: #e0f2fe;
+        margin-bottom: 14px;
+      }
+
+      .problem-code span:first-child {
+        font-weight: 600;
+        opacity: 0.85;
+      }
+
+      h2 {
+        font-size: 16px;
+        margin: 18px 0 8px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 1.6;
+        margin-bottom: 6px;
+        color: var(--text);
+      }
+
+      ul {
+        margin: 4px 0 10px 22px;
+        font-size: 14px;
+      }
+
+      ul li {
+        margin-bottom: 4px;
+        line-height: 1.6;
+      }
+
+      .section {
+        padding: 10px 0 2px;
+        border-top: 1px dashed rgba(148, 163, 184, 0.4);
+        margin-top: 8px;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .tag {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        color: var(--muted);
+      }
+
+      code {
+        font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo,
+          Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: 13px;
+      }
+
+      pre {
+        background: var(--code-bg);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        overflow-x: auto;
+        border: 1px solid rgba(15, 23, 42, 0.85);
+        margin: 6px 0 10px;
+      }
+
+      .example-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
+        margin-top: 6px;
+      }
+
+      .example-box-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 4px;
+        color: var(--muted);
+      }
+
+      .note {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      @media (max-width: 640px) {
+        .page {
+          padding: 18px 16px 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header>
+        <div class="brand">
+          <div class="logo-circle">C</div>
+          <div>
+            <div class="brand-text-title">COPRODUCTION</div>
+            <div class="brand-text-sub">Year-End Checkpoint 2025</div>
+          </div>
+        </div>
+        <div class="meta">
+          <div><strong>Bài:</strong> 1 | PASS_SERVER – Access Code</div>
+          <div><strong>Ngôn ngữ:</strong> C/C++/Java/Python/…</div>
+          <div><strong>Thời gian gợi ý:</strong> 1s &nbsp;|&nbsp; Bộ nhớ: 256MB</div>
+        </div>
+      </header>
+
+      <section>
+        <div class="problem-code">
+          <span>PS01</span>
+          <span>PASS_SERVER – Access Code</span>
+        </div>
+
+        <div class="tag-row">
+          <span class="tag">Math</span>
+          <span class="tag">Combinatorics</span>
+          <span class="tag">Big Integer</span>
+        </div>
+
+        <h2>Đề bài</h2>
+        <p>
+          Tập đoàn công nghệ <strong>COPRODUCTION</strong> vừa đưa vào vận hành
+          trung tâm dữ liệu mới <strong>Nebula Core</strong>. Mỗi cánh cửa vào
+          khu vực này được bảo vệ bởi một <strong>mã truy cập bí mật</strong>,
+          và chỉ có trưởng nhóm SRE – chị <strong>Linh</strong> – mới được phép
+          đặt và sử dụng mã đó.
+        </p>
+        <p>
+          Để vừa bảo mật vừa dễ nhớ theo phong cách riêng, chị Linh đặt ra quy
+          tắc tạo mật khẩu như sau:
+        </p>
+        <ul>
+          <li>
+            Mật khẩu là một chuỗi gồm đúng <code>n</code> ký tự chữ cái (chỉ số
+            ký tự tính từ 1).
+          </li>
+          <li>
+            Ở <strong>các vị trí lẻ</strong>, ký tự phải là một
+            <strong>nguyên âm</strong> trong tập:
+            <code>U, E, O, A, I</code> (5 lựa chọn).
+          </li>
+          <li>
+            Ở <strong>các vị trí chẵn</strong>, ký tự phải là một trong 4
+            <strong>phụ âm đặc biệt</strong>:
+            <code>H, N, M, G</code> (tên các squad:
+            Highload, Network, Monitoring, Gateway).
+          </li>
+        </ul>
+        <p>
+          Sau một thời gian vận hành, chị Linh quên mất chính xác mật khẩu, nhưng
+          vẫn nhớ rõ các quy tắc trên. Hãy giúp chị ấy tính xem có
+          <strong>bao nhiêu mật khẩu khác nhau</strong>
+          có thể thỏa mãn các quy tắc này.
+        </p>
+        <p>
+          Vì số lượng có thể rất lớn, hãy in ra kết quả
+          <strong>lấy modulo <code>10<sup>9</sup> + 7</code></strong>.
+        </p>
+      </section>
+
+      <section class="section">
+        <h2>Dữ liệu vào (Input)</h2>
+        <ul>
+          <li>Dòng duy nhất chứa một số nguyên <code>N</code> – độ dài mật khẩu.</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Kết quả (Output)</h2>
+        <ul>
+          <li>
+            In ra <strong>một số nguyên duy nhất</strong> là số lượng mật khẩu
+            có thể có, lấy modulo <code>10<sup>9</sup> + 7</code>.
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Subtask</h2>
+        <ul>
+          <li><strong>Subtask 1</strong> (50% số điểm): <code>1 ≤ N ≤ 10<sup>6</sup></code>.</li>
+          <li><strong>Subtask 2</strong> (50% còn lại): <code>N ≤ 10<sup>18</sup></code>.</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Ví dụ</h2>
+
+        <div class="example-grid">
+          <div>
+            <div class="example-box-title">Input 1</div>
+            <pre><code>1</code></pre>
+          </div>
+          <div>
+            <div class="example-box-title">Output 1</div>
+            <pre><code>5</code></pre>
+          </div>
+        </div>
+
+        <div class="example-grid">
+          <div>
+            <div class="example-box-title">Input 2</div>
+            <pre><code>2</code></pre>
+          </div>
+          <div>
+            <div class="example-box-title">Output 2</div>
+            <pre><code>20</code></pre>
+          </div>
+        </div>
+
+        <p class="note">
+          Với <strong>N = 1</strong>, chỉ có 1 ký tự và vị trí đó là vị trí lẻ,
+          nên có 5 lựa chọn (U, E, O, A, I) → đáp án là 5.  
+          Với <strong>N = 2</strong>, vị trí 1 có 5 lựa chọn nguyên âm,
+          vị trí 2 có 4 lựa chọn phụ âm → tổng cộng <code>5 × 4 = 20</code>.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
